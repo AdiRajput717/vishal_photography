@@ -1,26 +1,378 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* ============================================================
+   THEME — maps original CSS custom-property design tokens
+   into Tailwind v4's @theme system
+   ============================================================ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Colors */
+  --color-ivory: #FAF6EE;
+  --color-paper: #F3ECDE;
+  --color-ink: #241C15;
+  --color-ink-soft: #4A4038;
+  --color-maroon: #7A1F2B;
+  --color-maroon-deep: #54141D;
+  --color-marigold: #E8A33D;
+  --color-marigold-deep: #C97F1E;
+  --color-sand: #D8CBB2;
+
+  /* Fonts */
+  --font-display: "Marcellus", serif;
+  --font-headline: "Anton", sans-serif;
+  --font-quote: "Cormorant Garamond", serif;
+  --font-script: "Petit Formal Script", cursive;
+  --font-body: "Jost", sans-serif;
+
+  /* Editorial-section fonts (Services, Featured, Studio, Process,
+     Philosophy, Testimonials, Insta, Reels, Enquire, Footer) */
+  --font-editorial: "Playfair Display", serif;
+  --font-hand: "Caveat", cursive;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ============================================================
+   CSS CUSTOM PROPERTIES
+   ============================================================ */
+:root {
+  --container: 1240px;
+  --edge: clamp(20px, 5vw, 64px);
+}
+
+/* ============================================================
+   BASE RESETS — matching original design exactly
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Lenis handles smooth scrolling — do NOT use scroll-behavior: smooth,
+     it conflicts with GSAP ScrollTrigger scrub/pin calculations. */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: white;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-maroon);
+  outline-offset: 3px;
+}
+
+/* ============================================================
+   EDITORIAL SECTION TYPE
+   Shared by Services, Featured, Studio, Process, Philosophy,
+   Testimonials, Insta, Reels, Enquire, Footer. Defined once here
+   instead of via a duplicated <style>@import in every one of those
+   components (was ~10 redundant Google Fonts requests per load).
+   ============================================================ */
+.font-display {
+  font-family: var(--font-headline);
+}
+
+.font-serif {
+  font-family: var(--font-editorial);
+}
+
+.font-caption {
+  font-family: var(--font-hand);
+}
+
+/* ============================================================
+   PAPER GRAIN OVERLAY
+   ============================================================ */
+.paper-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   NAV LINK UNDERLINE (pseudo-element)
+   ============================================================ */
+.nav-link {
+  position: relative;
+  padding-bottom: 3px;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-maroon);
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ============================================================
+   HERO POLAROIDS
+   ============================================================ */
+.h-polaroid {
+  position: absolute;
+  margin: 0;
+  background: #fff;
+  padding: 8px 8px 8px;
+  z-index: 4;
+  box-shadow: 0 14px 26px rgba(36, 28, 21, 0.16);
+  width: 104px;
+}
+
+.h-polaroid img {
+  width: 100%;
+  aspect-ratio: 16/17;
+  object-fit: cover;
+  display: block;
+}
+
+/* ============================================================
+   PHILOSOPHY — word-fill effect
+   ============================================================ */
+.word {
+  color: #d9d9d9;
+  transition: none;
+  display: inline-block;
+}
+
+.philosophy-photo {
+  position: absolute;
+  width: clamp(140px, 16vw, 220px);
+  aspect-ratio: 3 / 4;
+  border-radius: 8px;
+  overflow: hidden;
+  opacity: 1;
+  z-index: 1;
+  will-change: transform;
+}
+
+.philosophy-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ============================================================
+   IMAGE MARQUEE
+   ============================================================ */
+.image-marquee {
+  width: 100%;
+  overflow: hidden;
+  padding: 40px 0;
+  -webkit-mask-image: linear-gradient(to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent);
+  mask-image: linear-gradient(to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent);
+  margin-top: -180px;
+}
+
+.image-marquee-track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.image-marquee:hover .image-marquee-track {
+  animation-play-state: paused;
+}
+
+.image-card {
+  flex-shrink: 0;
+  width: 320px;
+  height: 420px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: .4s;
+}
+
+.image-card:hover img {
+  transform: scale(1.05);
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ============================================================
+   TEXT MARQUEE STRIP
+   ============================================================ */
+.text-marquee-track {
+  display: flex;
+  gap: 34px;
+  white-space: nowrap;
+  width: max-content;
+}
+
+.text-marquee-track span {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--color-ink-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 34px;
+}
+
+.text-marquee-track span:nth-child(even) {
+  color: var(--color-marigold);
+  font-size: 0.8rem;
+}
+
+/* ============================================================
+   REVEAL BASE STATES (for GSAP)
+   ============================================================ */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(26px);
+}
+
+/* ============================================================
+   MOBILE NAV
+   ============================================================ */
+@media (max-width: 720px) {
+  .main-nav {
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: 78%;
+    max-width: 300px;
+    background: var(--color-ivory);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 110px 30px;
+    gap: 24px;
+    transform: translateX(100%);
+    transition: transform 0.35s ease;
+    z-index: 90;
+    box-shadow: -8px 0 30px rgba(36, 28, 21, 0.12);
+  }
+
+  .main-nav.is-open {
+    transform: translateX(0);
+  }
+}
+
+/* ============================================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================================ */
+@media (max-width: 1000px) {
+  .h-polaroid {
+    width: 80px;
+  }
+
+  .hp-2,
+  .hp-3 {
+    width: 72px;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero-polaroids {
+    display: none;
+  }
+
+  /* .image-marquee's -180px pull-up is tuned for desktop's taller
+     hero. On short mobile viewports that same fixed offset drags the
+     marquee up into the hero's tagline/CTA buttons, so it's reduced
+     here — desktop rule above is untouched. */
+  .image-marquee {
+    margin-top: -60px;
+  }
+}
+
+/* ============================================================
+   MOBILE NAV — backdrop + body scroll lock
+   Only active below 720px, alongside the existing .main-nav rules.
+   ============================================================ */
+@media (max-width: 720px) {
+  .nav-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(36, 28, 21, 0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    z-index: 80;
+  }
+
+  .nav-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  html.nav-open,
+  html.nav-open body {
+    overflow: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

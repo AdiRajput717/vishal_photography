@@ -100,7 +100,7 @@ export default function Hero() {
       }}
       id="top"
     >
-      <div className="relative z-3 mx-auto text-center" style={{ maxWidth: "1100px" }}>
+      <div className="relative z-3 mx-auto text-center" style={{ maxWidth: "1105px" }}>
         {/* Floating Polaroids + Camera */}
         <div className="hero-polaroids relative h-0">
           {/* Polaroid 1 */}
@@ -174,8 +174,8 @@ export default function Hero() {
           <span
             className="inline-flex items-center justify-center bg-ink text-ivory rounded-full align-middle select-none ml-2"
             style={{
-              width: "0.28em",
-              height: "0.28em",
+              width: "0.64em",
+              height: "0.64em",
               fontSize: "0.32em",
               verticalAlign: "super",
               transform: "translateY(-0.1em)",

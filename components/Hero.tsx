@@ -100,7 +100,7 @@ export default function Hero() {
       }}
       id="top"
     >
-      <div className="relative z-3 mx-auto text-center" style={{ maxWidth: "1105px" }}>
+      <div className="relative z-3 mx-auto text-center" style={{ maxWidth: "1106px" }}>
         {/* Floating Polaroids + Camera */}
         <div className="hero-polaroids relative h-0">
           {/* Polaroid 1 */}

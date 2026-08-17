@@ -18,7 +18,7 @@ type PreloaderProps = {
 export default function Preloader({
     minDuration = 3000, // Increased from 1800 to 3000 for a longer display
     onComplete,
-    brandName = "Marigold & Co.",
+    brandName = "VISHAL PHOTOGRAPHY",
     tagline = "developing your story...",
 }: PreloaderProps) {
     const [progress, setProgress] = useState(0);

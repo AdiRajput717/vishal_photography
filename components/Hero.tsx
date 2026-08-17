@@ -96,7 +96,7 @@ export default function Hero() {
       ref={sectionRef}
       className="relative flex items-center justify-center overflow-hidden min-h-[90svh] max-md:min-h-[45svh]"
       style={{
-        padding: "85px var(--edge) 50px",
+        padding: "85px var(--edge) 10px",
       }}
       id="top"
     >

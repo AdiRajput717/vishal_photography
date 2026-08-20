@@ -35,13 +35,14 @@ export default function Preloader({
 
     // 1. Lock page scroll during preloader active phase
     useEffect(() => {
-        const originalStyle = document.body.style.overflow;
-        document.body.style.overflow = "hidden";
-
-        return () => {
-            document.body.style.overflow = originalStyle;
-        };
-    }, []);
+        if (visible) {
+            const originalStyle = document.body.style.overflow;
+            document.body.style.overflow = "hidden";
+            return () => {
+                document.body.style.overflow = originalStyle;
+            };
+        }
+    }, [visible]);
 
     // 2. Smooth, real-world progress ticker with fallback safety
     useEffect(() => {
